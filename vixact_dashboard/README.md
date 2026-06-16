@@ -116,14 +116,6 @@ flutter test
 - Riverpod code generation (`@riverpod`)
 - Shimmer loading states
 
-## Bonus items not implemented (by scope choice)
 
-- Theme management (light/dark toggle) — single light theme only
-- Unit tests beyond one smoke test
-- GitHub Actions CI/CD
 
-## Notes on AI tool usage
 
-Implementation was AI-assisted (per FAQ Q3, this is permitted). All
-architectural choices — layering, provider design, mock-fallback strategy —
-are understood and can be explained/defended during review.
