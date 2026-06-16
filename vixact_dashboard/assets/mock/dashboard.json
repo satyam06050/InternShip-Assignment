@@ -1,0 +1,60 @@
+{
+  "user": {
+    "name": "Sai Teja",
+    "unreadNotifications": 3
+  },
+  "summary": {
+    "totalVendors": 191,
+    "totalCollected": 1015000,
+    "totalOutstanding": 225000
+  },
+  "events": [
+    {
+      "id": "evt_1",
+      "name": "Janapriya Community",
+      "date": "2026-06-15",
+      "vendorCount": 82,
+      "collected": 485000,
+      "pending": 120000,
+      "colorTag": "blue"
+    },
+    {
+      "id": "evt_2",
+      "name": "My Home Magla",
+      "date": "2026-07-20",
+      "vendorCount": 48,
+      "collected": 220000,
+      "pending": 40000,
+      "colorTag": "purple"
+    },
+    {
+      "id": "evt_3",
+      "name": "Kolanu Gardens",
+      "date": "2026-08-10",
+      "vendorCount": 61,
+      "collected": 310000,
+      "pending": 65000,
+      "colorTag": "orange"
+    }
+  ],
+  "recentActivity": [
+    {
+      "id": "act_1",
+      "type": "payment",
+      "title": "Payment received from ABC Foods",
+      "timestamp": "2026-06-16T10:30:00.000Z"
+    },
+    {
+      "id": "act_2",
+      "type": "vendor_added",
+      "title": "New vendor added",
+      "timestamp": "2026-06-15T09:00:00.000Z"
+    },
+    {
+      "id": "act_3",
+      "type": "event_updated",
+      "title": "Event updated",
+      "timestamp": "2026-06-14T09:00:00.000Z"
+    }
+  ]
+}
