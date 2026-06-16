@@ -22,6 +22,14 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   int _navIndex = 0;
+  int _currentPage = 0;
+  final _scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,20 +64,52 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   const SizedBox(height: AppSpacing.sm),
                   SizedBox(
                     height: 210,
-                    child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: dashboard.events.length,
-                      separatorBuilder: (_, __) =>
-                          const SizedBox(width: AppSpacing.sm),
-                      itemBuilder: (context, index) {
-                        final event = dashboard.events[index];
-                        return EventCard(
-                          event: event,
-                          onTap: () => context.push(
-                            '${AppRoutes.eventDetails}?eventId=${event.id}',
-                          ),
-                        );
+                    child: NotificationListener<ScrollNotification>(
+                      onNotification: (n) {
+                        if (n is ScrollUpdateNotification) {
+                          const cardWidth = 265.0 + AppSpacing.sm;
+                          final page = (_scrollController.offset / cardWidth).round();
+                          final safePage = page.clamp(0, dashboard.events.length - 1);
+                          if (safePage != _currentPage) {
+                            setState(() => _currentPage = safePage);
+                          }
+                        }
+                        return false;
                       },
+                      child: ListView.separated(
+                        controller: _scrollController,
+                        scrollDirection: Axis.horizontal,
+                        itemCount: dashboard.events.length,
+                        separatorBuilder: (_, __) =>
+                            const SizedBox(width: AppSpacing.sm),
+                        itemBuilder: (context, index) {
+                          final event = dashboard.events[index];
+                          return EventCard(
+                            event: event,
+                            onTap: () => context.push(
+                              '${AppRoutes.eventDetails}?eventId=${event.id}',
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: AppSpacing.sm),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(
+                      dashboard.events.length,
+                      (index) => Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 4),
+                        width: 8,
+                        height: 8,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: _currentPage == index
+                              ? AppColors.primary
+                              : Colors.grey.shade300,
+                        ),
+                      ),
                     ),
                   ),
                   const SizedBox(height: AppSpacing.lg),
@@ -155,8 +195,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   const SizedBox(height: AppSpacing.lg),
                   const _SectionHeader(title: 'RECENT ACTIVITY'),
                   Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: AppSpacing.md),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: AppSpacing.md),
                     decoration: BoxDecoration(
                       color: AppColors.surface,
                       borderRadius: BorderRadius.circular(AppRadius.md),

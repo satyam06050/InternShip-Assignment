@@ -1,20 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
 import '../../../core/theme/app_theme.dart';
 import '../../../data/models/event_model.dart';
 
 class EventCard extends StatelessWidget {
-  const EventCard({super.key, required this.event, this.onTap});
+  const EventCard({
+    super.key,
+    required this.event,
+    this.onTap,
+  });
 
   final EventModel event;
   final VoidCallback? onTap;
 
   Color get _accentColor {
-    switch (event.colorTag) {
+    switch (event.colorTag.toLowerCase()) {
       case 'purple':
         return AppColors.accentPurple;
+
       case 'orange':
         return AppColors.accentOrange;
+
       default:
         return AppColors.primary;
     }
@@ -35,81 +42,134 @@ class EventCard extends StatelessWidget {
 
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(AppRadius.lg),
+      borderRadius: BorderRadius.circular(20),
       child: Container(
-        width: 240,
+        width: 265,
         padding: const EdgeInsets.all(AppSpacing.md),
         decoration: BoxDecoration(
-          color: AppColors.surface,
-          borderRadius: BorderRadius.circular(AppRadius.lg),
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              accent.withOpacity(.12),
+              Colors.white,
+            ],
+          ),
+          borderRadius: BorderRadius.circular(20),
           boxShadow: const [
             BoxShadow(
-              color: Color(0x0F000000),
-              blurRadius: 12,
-              offset: Offset(0, 4),
+              color: Color(0x08000000),
+              blurRadius: 20,
+              offset: Offset(0, 6),
             ),
           ],
         ),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            /// Top Row
             Row(
               children: [
                 Container(
-                  width: 40,
-                  height: 40,
+                  width: 44,
+                  height: 44,
                   decoration: BoxDecoration(
                     color: accent,
-                    borderRadius: BorderRadius.circular(AppRadius.sm),
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                  child: const Icon(Icons.calendar_today,
-                      color: Colors.white, size: 18),
+                  child: const Icon(
+                    Icons.calendar_today_rounded,
+                    color: Colors.white,
+                    size: 20,
+                  ),
                 ),
                 const Spacer(),
-                const Icon(Icons.chevron_right, color: AppColors.textSecondary),
+                Container(
+                  width: 30,
+                  height: 30,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(.05),
+                        blurRadius: 8,
+                      ),
+                    ],
+                  ),
+                  child: const Icon(
+                    Icons.chevron_right,
+                    size: 18,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
               ],
             ),
-            const SizedBox(height: AppSpacing.sm),
+
+            const SizedBox(height: 8),
+
+            /// Event Name
             Text(
               event.name,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(
-                fontSize: 16,
+                fontSize: 15,
                 fontWeight: FontWeight.w700,
                 color: AppColors.textPrimary,
+                height: 1.2,
               ),
             ),
+
             const SizedBox(height: 6),
+
+            /// Date
             Row(
               children: [
-                const Icon(Icons.calendar_month_outlined,
-                    size: 14, color: AppColors.textSecondary),
+                const Icon(
+                  Icons.calendar_month_outlined,
+                  size: 13,
+                  color: AppColors.textSecondary,
+                ),
                 const SizedBox(width: 4),
                 Text(
                   _formattedDate,
                   style: const TextStyle(
-                      fontSize: 12, color: AppColors.textSecondary),
+                    fontSize: 11,
+                    color: AppColors.textSecondary,
+                  ),
                 ),
               ],
             ),
+
             const SizedBox(height: 4),
+
+            /// Vendors
             Row(
               children: [
-                const Icon(Icons.groups_outlined,
-                    size: 14, color: AppColors.textSecondary),
+                const Icon(
+                  Icons.groups_outlined,
+                  size: 13,
+                  color: AppColors.textSecondary,
+                ),
                 const SizedBox(width: 4),
                 Text(
                   '${event.vendorCount} Vendors',
                   style: const TextStyle(
-                      fontSize: 12, color: AppColors.textSecondary),
+                    fontSize: 11,
+                    color: AppColors.textSecondary,
+                  ),
                 ),
               ],
             ),
-            const SizedBox(height: AppSpacing.sm),
+
+            const SizedBox(height: 6),
+
             const Divider(height: 1),
-            const SizedBox(height: AppSpacing.sm),
+
+            const SizedBox(height: 8),
+
+            /// Amount Section
             Row(
               children: [
                 Expanded(
@@ -157,15 +217,20 @@ class _AmountColumn extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label,
-            style: const TextStyle(
-                fontSize: 11, color: AppColors.textSecondary)),
-        const SizedBox(height: 2),
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 10,
+            color: AppColors.textSecondary,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        const SizedBox(height: 4),
         Text(
           formatted,
           style: TextStyle(
             fontSize: 13,
-            fontWeight: FontWeight.w700,
+            fontWeight: FontWeight.w800,
             color: color,
           ),
         ),
