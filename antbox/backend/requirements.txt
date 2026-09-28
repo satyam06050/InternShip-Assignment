@@ -1,0 +1,5 @@
+fastapi
+uvicorn
+gspread
+google-auth
+python-dotenv
