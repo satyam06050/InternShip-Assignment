@@ -7,7 +7,7 @@ export interface FetchResult {
   error?: string;
 }
 
-export const API_URL = "http://127.0.0.1:8000/api/data";
+export const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/api/data`;
 
 export async function fetchCandidatesFromApi(): Promise<FetchResult> {
   try {
@@ -58,14 +58,14 @@ export async function fetchCandidatesFromApi(): Promise<FetchResult> {
     return {
       data: normalized,
       source: "api",
-      message: "Successfully fetched live data from http://127.0.0.1:8000/api/data",
+      message: `Successfully fetched live data from ${API_URL}`,
     };
   } catch (err: any) {
-    console.error("Error fetching from http://127.0.0.1:8000/api/data:", err);
+    console.error(`Error fetching from ${API_URL}:`, err);
     return {
       data: [],
       source: "api",
-      error: err.message || "Failed to fetch from http://127.0.0.1:8000/api/data",
+      error: err.message || `Failed to fetch from ${API_URL}`,
     };
   }
 }
