@@ -2,6 +2,9 @@
 .env
 .env.*
 
+# Credentials
+credentials/service-account.json
+
 # Virtual environment
 venv/
 .venv/
