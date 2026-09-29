@@ -164,17 +164,23 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
             No live interviews in progress right now.
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {liveCandidates.map((c) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {liveCandidates.map((c, index) => (
               <motion.div
                 key={c.id}
-                whileHover={{ y: -2 }}
-                className="p-6 bg-white border border-[#7E5281]/30 rounded-2xl shadow-sm space-y-4 relative overflow-hidden"
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: index * 0.1, ease: "easeOut" }}
+                whileHover={{ y: -4, boxShadow: "0 12px 24px -10px rgba(126, 82, 129, 0.15)" }}
+                className="p-6 bg-gradient-to-br from-white to-[#F5F3EC]/40 border border-[#E6E2D8] hover:border-[#7E5281]/40 rounded-2xl shadow-sm transition-colors duration-300 relative overflow-hidden flex flex-col justify-between"
               >
+                {/* Subtle internal gradient accent */}
+                <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-bl from-[#7E5281]/[0.03] to-transparent rounded-bl-full pointer-events-none" />
+
                 {/* Header */}
-                <div className="flex items-start justify-between">
-                  <div className="space-y-1">
-                    <div className="flex items-center space-x-2">
+                <div className="flex items-start justify-between z-10 relative mb-6">
+                  <div className="space-y-1.5">
+                    <div className="flex items-center space-x-2.5 mb-2">
                       <span
                         className={`text-[11px] font-bold px-2 py-0.5 rounded border ${
                           ROLE_BADGES[c.role]
@@ -182,49 +188,44 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
                       >
                         {c.role}
                       </span>
-                      <span className="text-xs font-mono text-purple-700 font-bold flex items-center space-x-1">
-                        <span className="w-1.5 h-1.5 rounded-full bg-purple-600 animate-ping" />
-                        <span>Live • 24m elapsed</span>
+                      <span className="text-xs font-mono text-[#7E5281] font-bold flex items-center space-x-1.5 bg-[#7E5281]/5 px-2 py-0.5 rounded-md">
+                        <span className="relative flex h-2 w-2">
+                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#7E5281] opacity-75"></span>
+                          <span className="relative inline-flex rounded-full h-2 w-2 bg-[#7E5281]"></span>
+                        </span>
+                        <span>LIVE • 24m elapsed</span>
                       </span>
                     </div>
-                    <h3 className="text-lg font-bold text-[#24221F]">{c.name}</h3>
-                    <p className="text-xs text-[#6E685F]">{c.email}</p>
+                    <h3 className="text-xl font-bold text-[#24221F] tracking-tight">{c.name}</h3>
+                    <p className="text-xs text-[#6E685F] font-medium">{c.email}</p>
                   </div>
-                  <button
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
                     onClick={() => onSelectCandidate(c)}
-                    className="px-3 py-1.5 bg-[#F5F3EC] hover:bg-[#7E5281] hover:text-white rounded-xl text-xs font-semibold text-[#24221F] transition-colors"
+                    className="px-4 py-2 bg-white border border-[#E6E2D8] hover:border-[#7E5281]/30 hover:bg-[#F5F3EC] rounded-xl text-xs font-semibold text-[#24221F] shadow-sm transition-colors"
                   >
-                    Drawer Profile
-                  </button>
-                </div>
-
-                {/* Progress bar (0 - 45 mins) */}
-                <div className="space-y-1.5">
-                  <div className="flex items-center justify-between text-[11px] font-medium text-[#6E685F]">
-                    <span>Progress (24m / 45m)</span>
-                    <span className="font-mono text-[#7E5281]">53%</span>
-                  </div>
-                  <div className="w-full h-2 bg-[#F5F3EC] rounded-full overflow-hidden border border-[#E6E2D8]">
-                    <div className="h-full bg-[#7E5281] rounded-full w-[53%] transition-all duration-500" />
-                  </div>
+                    View Profile
+                  </motion.button>
                 </div>
 
                 {/* Meta details */}
-                <div className="flex items-center justify-between pt-2 border-t border-[#F0EDE5] text-xs">
+                <div className="flex items-center justify-between pt-4 border-t border-[#E6E2D8]/60 text-xs z-10 relative mt-auto">
                   <div className="flex items-center space-x-2 text-[#6E685F]">
-                    <UserCheck className="w-3.5 h-3.5 text-[#7E5281]" />
-                    <span>Interviewer: </span>
-                    <span className="font-semibold text-[#24221F]">{c.interviewer}</span>
+                    <div className="w-7 h-7 rounded-full bg-white flex items-center justify-center border border-[#E6E2D8] shadow-sm">
+                      <UserCheck className="w-3.5 h-3.5 text-[#7E5281]" />
+                    </div>
+                    <span className="font-medium text-[#24221F]">{c.interviewer}</span>
                   </div>
-                  <div className="flex items-center space-x-2">
-                    <button
-                      onClick={() => onSelectCandidate(c)}
-                      className="px-3 py-1.5 bg-[#7E5281] text-white rounded-xl font-semibold text-xs flex items-center space-x-1 hover:bg-[#68416B] transition-colors"
-                    >
-                      <Play className="w-3 h-3 fill-current" />
-                      <span>Join Room</span>
-                    </button>
-                  </div>
+                  <motion.button
+                    whileHover={{ scale: 1.02, backgroundColor: "#68416B" }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => onSelectCandidate(c)}
+                    className="px-4 py-2 bg-[#7E5281] text-white rounded-xl font-semibold text-xs flex items-center space-x-1.5 shadow-md shadow-[#7E5281]/20 transition-colors"
+                  >
+                    <Play className="w-3.5 h-3.5 fill-current" />
+                    <span>Join Room</span>
+                  </motion.button>
                 </div>
               </motion.div>
             ))}
