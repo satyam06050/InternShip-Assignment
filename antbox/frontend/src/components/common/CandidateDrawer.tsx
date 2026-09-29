@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
 import {
   X,
   ExternalLink,
@@ -14,6 +15,7 @@ import {
   Calendar,
   Sparkles,
   Save,
+  User,
 } from "lucide-react";
 import { GithubIcon } from "@/components/common/Icons";
 import { Candidate, CandidateStatus, RoleType } from "@/lib/types";
@@ -200,10 +202,9 @@ export const CandidateDrawer: React.FC<CandidateDrawerProps> = ({
                 </div>
               </div>
 
-              {/* External Links */}
               <div className="space-y-2">
                 <h4 className="font-semibold text-[#24221F] text-xs">Candidate Profiles & Links</h4>
-                <div className="grid grid-cols-3 gap-2">
+                <div className="flex flex-wrap gap-2 *:flex-1 *:basis-[80px]">
                   {candidate.github && (
                     <a
                       href={`https://${candidate.github}`}
@@ -237,6 +238,13 @@ export const CandidateDrawer: React.FC<CandidateDrawerProps> = ({
                       <span>Resume</span>
                     </a>
                   )}
+                  <Link
+                    href={`/candidates/${candidate.id}`}
+                    className="p-2.5 bg-white border border-[#E6E2D8] hover:border-[#7E5281] rounded-xl flex items-center justify-center space-x-1.5 text-[#24221F] hover:text-[#7E5281] font-medium transition-all"
+                  >
+                    <User className="w-3.5 h-3.5" />
+                    <span>Profile</span>
+                  </Link>
                 </div>
               </div>
 
