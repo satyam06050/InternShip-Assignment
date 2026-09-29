@@ -42,6 +42,8 @@
 
 ## 🔄 System Architecture & Flow
 
+![System Architecture & Flow](./assets/flow.png)
+
 ```mermaid
 flowchart TD
     A[👤 Recruiter / HR User] -->|Opens browser| B[Next.js Frontend\nlocalhost:3000]
